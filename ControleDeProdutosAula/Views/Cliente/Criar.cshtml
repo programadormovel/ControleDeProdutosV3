@@ -1,0 +1,88 @@
+﻿@model ClienteModel
+@{
+	ViewData["Title"] = "Cadastro de Clientes";
+}
+
+<script type="text/javascript">
+	jQuery(function ($) {
+		$("#telefone").mask("9999-9999?9");
+		$("#telefone").blur(function (event) {
+			if ($(this).val().length == 10) {
+				$('#telefone').mask('99999-9999');
+			} else {
+				$('#telefone').mask('9999-9999');
+			}
+		});
+	});
+</script>
+
+<script type="text/javascript">
+	jQuery(function ($) {
+		$("#cep").mask("99999-999");
+		$("#cep").blur(function (event) {
+			if ($(this).val().length == 9) {
+				$('#cep').mask('99999-999');
+			}
+		});
+	});
+</script>
+
+<h1 class="display-4 text-center mx-auto"> Cadastro de Clientes</h1>
+<div class="text-center mx-auto col-4">
+	<form asp-controller="Cliente" asp-action="Criar" method="post" class="col">
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<div class="row mt-4">
+			<div class="col-sm-6">
+				<label for="nome" class="form-label">Nome</label>
+				<input type="text" asp-for="Nome" class="form-control" id="nome" placeholder="Digite o Nome">
+				<span asp-validation-for="Nome" class="text-danger"></span>
+			</div>
+			<div class="col-sm-6">
+				<label for="sobrenome" class="form-label">Sobrenome</label>
+				<input type="text" asp-for="Sobrenome" class="form-control" id="sobrenome" placeholder="Digite o sobrenome">
+				<span asp-validation-for="Sobrenome" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="row mt-4">
+			<div class="col-sm-3">
+				<label for="telefone" class="form-label">DDD</label>
+				<input type="text" asp-for="DDD" class="form-control" id="ddd" placeholder="DDD">
+				<span asp-validation-for="DDD" class="text-danger"></span>
+			</div>
+			<div class="col-sm-5">
+				<label for="telefone" class="form-label">Telefone</label>
+				<input type="text" asp-for="Telefone" class="form-control" id="telefone" placeholder="Digite o telefone">
+				<span asp-validation-for="Telefone" class="text-danger"></span>
+			</div>
+			<div class="col-sm-4">
+				<label for="cep" class="form-label">CEP</label>
+				<input type="text" asp-for="CEP" class="form-control" id="cep" placeholder="Informe o CEP">
+				<span asp-validation-for="CEP" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="row col-10 mt-4 mx-auto">
+			<label for="nomeDaFoto" class="form-label">Foto</label>
+			<input type="file" asp-for="NomeDaFoto" class="form-control" id="nomeDaFoto" placeholder="Busque a foto do produto">
+			<span asp-validation-for="NomeDaFoto" class="text-danger"></span>
+			<input type="image" asp-for="Foto" class="form-control" id="foto" src="" width=100 height=auto>
+			<span asp-validation-for="Foto" class="text-danger"></span>
+		</div>
+		<div class="row col-1 mt-4 mx-auto">
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" asp-for="Ativo" id="status" checked>
+				<span asp-validation-for="Ativo" class="text-danger"></span>
+				<label class="form-check-label" for="status">
+					Ativo
+				</label>
+			</div>
+		</div>
+		<div class="row col-6 mt-5 mx-auto">
+			<div class="col-sm-6">
+				<button type="submit" class="btn btn-primary btn-block">Adicionar</button>
+			</div>
+			<div class="col-sm-6">
+				<a class="btn btn-secondary btn-block" asp-controller="Cliente" asp-action="Index" role="button">Voltar</a>
+			</div>
+		</div>
+	</form>
+</div>

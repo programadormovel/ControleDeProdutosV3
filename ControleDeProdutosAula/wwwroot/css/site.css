@@ -1,0 +1,59 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #f3f3f3;
+}
+
+.bi {
+    font-size: 1.25rem;
+}
+
+.bi-eraser {
+    color: #d30303;
+}
+
+.bi-eraser:hover {
+    color: #fa0303;
+}
+
+.bi-x-lg {
+    color: #ddd900;
+}
+
+.bi-x-lg:hover {
+    color: #fff200;
+}
+
+.bi-pencil-square {
+    color: #0067be;
+}
+
+.bi-pencil-square:hover {
+    color: #049bff;
+}
+
+td p {
+    font-weight: 600;
+}
+
+#ativo {
+    color: #01cc2b;
+}
+
+#inativo {
+    color: #f70707;
+}

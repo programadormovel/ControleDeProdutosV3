@@ -1,0 +1,87 @@
+﻿@model List<ClienteModel>
+@{
+	ViewData["Title"] = "Clientes";
+}
+
+<div class="text-center">
+
+	<div class="d-grid gap-2 d-md-flex justify-content-md-start">
+		<a class="btn btn-success" role="button" asp-controller="Cliente" asp-action="Criar">Adicionar novo Cliente</a>
+	</div>
+	<br />
+	<h1 class="display-4">Lista de Clientes</h1>
+	<table class="table caption-top">
+		<caption>Lista de Clientes</caption>
+		<thead>
+			<tr>
+				<th scope="col">Id</th>
+				<th scope="col">Nome</th>
+				<th scope="col">Sobrenome</th>
+				<th scope="col">DDD</th>
+				<th scope="col">Telefone</th>
+				<th scope="col">Dispositivo</th>
+				<th scope="col">CEP</th>
+				<th scope="col">Data de Registro</th>
+				<th scope="col">Situação</th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (Model != null && Model.Any())
+			{
+				foreach (ClienteModel cliente in Model)
+				{
+
+					var cep = @cliente.CEP.Substring(0, 5) + "-" + @cliente.CEP.Substring(5, 3);
+
+					var telConvertido = "";
+					if (@cliente.Telefone.Length == 8)
+					{
+						telConvertido = @cliente.Telefone.Substring(0, 4) + "-" + @cliente.Telefone.Substring(4, 4);
+					}
+					else
+					{
+						telConvertido = @cliente.Telefone.Substring(0, 5) + "-" + @cliente.Telefone.Substring(5, 4);
+					}
+
+					<tr>
+						<th scope="row">@cliente.Id</th>
+						<td>@cliente.Nome</td>
+						<td>@cliente.Sobrenome</td>
+						<td>@cliente.DDD</td>
+						<td>@telConvertido</td>
+						<td>
+							@if (@cliente.Telefone.Length == 8)
+							{
+								<p>Fixo</p>
+							}
+							else
+							{
+								<p>Celular</p>
+							}
+						</td>
+						<td>@cep</td>
+						<td>@cliente.DataDeRegistro.ToString("dd/MM/yyyy")</td>
+						<td>
+							@if (@cliente.Ativo)
+							{
+								<p id="ativo">Ativo</p>
+							}
+							else
+							{
+								<p id="inativo">Inativo</p>
+							}
+						</td>
+						<td>
+							<div class="btn-group" role="group">
+								<a role="button" class="bi bi-pencil-square" asp-route-id="@cliente.Id" asp-controller="Cliente" asp-action="Editar"></a>
+								<a role="button" class="bi bi-x-lg mx-4"></a>
+								<a role="button" class="bi bi-eraser" asp-route-id="@cliente.Id" asp-controller="Cliente" asp-action="ApagarConfirmacao"></a>
+							</div>
+						</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+</div>

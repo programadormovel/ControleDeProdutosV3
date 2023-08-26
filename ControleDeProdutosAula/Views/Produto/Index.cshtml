@@ -1,0 +1,64 @@
+﻿@using System.Globalization;
+@model List<ProdutoModel>
+@{
+	ViewData["Title"] = "Produtos";
+}
+
+<div class="text-center">
+
+	<div class="d-grid gap-2 d-md-flex justify-content-md-start">
+		<a class="btn btn-success" role="button" asp-controller="Produto" asp-action="Criar">Adicionar novo produto</a>
+	</div>
+	<br />
+	<h1 class="display-4"> Lista de Produtos</h1>
+	<table class="table caption-top">
+		<caption>Lista de Produtos</caption>
+		<thead>
+			<tr>
+				<th scope="col">Id</th>
+				<th scope="col">Código de Barras</th>
+				<th scope="col">Descrição</th>
+				<th scope="col">Data de Validade</th>
+				<th scope="col">Data de Registro</th>
+				<th scope="col">Quantidade</th>
+				<th scope="col">Valor Unitário</th>
+				<th scope="col">Situação</th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (Model != null && Model.Any())
+			{
+				foreach (ProdutoModel produto in Model)
+				{
+					<tr>
+						<th scope="row">@produto.Id</th>
+						<td>@produto.CodigoDeBarras</td>
+						<td>@produto.Descricao</td>
+						<td>@produto.DataDeValidade.ToString("dd/MM/yyyy")</td>
+						<td>@produto.DataDeRegistro.ToString("dd/MM/yyyy")</td>
+						<td>@produto.Quantidade</td>
+						<td>R$ @produto.Valor.ToString("F2", new CultureInfo("pt-BR"))</td>
+						<td>
+							@if (@produto.Ativo)
+							{
+								<p id="ativo">Ativo</p>
+							}
+							else
+							{
+								<p id="inativo">Inativo</p>
+							}
+						</td>
+						<td>
+							<div class="btn-group" role="group">
+								<a role="button" class="bi bi-pencil-square" asp-route-id="@produto.Id" asp-controller="Produto" asp-action="Editar"></a>
+								<a role="button" class="bi bi-x-lg mx-4"></a>
+								<a role="button" class="bi bi-eraser" asp-route-id="@produto.Id" asp-controller="Produto" asp-action="ApagarConfirmacao"></a>
+							</div>
+						</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+</div>

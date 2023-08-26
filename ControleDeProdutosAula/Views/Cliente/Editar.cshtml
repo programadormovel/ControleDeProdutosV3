@@ -1,0 +1,55 @@
+﻿@model ClienteModel
+@{
+	ViewData["Title"] = "Editar Cliente";
+}
+<div class="text-center mx-auto col-4">
+	<h1 class="display-4">Editar Cliente</h1>
+	<form asp-controller="Cliente" asp-action="Alterar" method="post" class="col">
+		<div class="row mt-4">
+			<div class="col-sm-6">
+				<input type="hidden" asp-for="Id" />
+				<label for="nome" class="form-label">Nome</label>
+				<input type="text" asp-for="Nome" class="form-control" id="nome" placeholder="Digite o nome">
+			</div>
+			<div class="col-sm-6">
+				<label for="sobrenome" class="form-label">Sobrenome</label>
+				<input type="text" asp-for="Sobrenome" class="form-control" id="sobrenome" placeholder="Digite o sobrenome">
+			</div>
+		</div>
+		<div class="row mt-4">
+			<div class="col-sm-2">
+				<label for="ddd" class="form-label">DDD</label>
+				<input type="text" asp-for="DDD" class="form-control" id="ddd" placeholder="DDD">
+			</div>
+			<div class="col-sm-6">
+				<label for="telefone" class="form-label">Telefone</label>
+				<input type="text" asp-for="Telefone" class="form-control" id="telefone" placeholder="Digite o telefone">
+			</div>
+			<div class="col-sm-4">
+				<label for="cep" class="form-label">CEP</label>
+				<input type="text" asp-for="CEP" class="form-control" id="cep" placeholder="Digite o CEP">
+			</div>
+		</div>
+		<div class="row col-10 mx-auto mt-4">
+			<label for="nomeDaFoto" class="form-label">Foto</label>
+			<input type="file" asp-for="NomeDaFoto" class="form-control" id="nomeDaFoto" placeholder="Busque a foto do cliente">
+			<input type="image" asp-for="Foto" class="form-control" id="foto" src="" width=100 height=auto>
+		</div>
+		<div class="row mt-4 col-1 mx-auto">
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" asp-for="Ativo" id="status">
+				<label class="form-check-label" for="ativo">
+					Ativo
+				</label>
+			</div>
+		</div>
+		<div class="row col-6 mt-5 mx-auto">
+			<div class="col-sm-6">
+				<button type="submit" class="btn btn-primary btn-block">Atualizar</button>
+			</div>
+			<div class="col-sm-6">
+				<a class="btn btn-secondary btn-block" asp-controller="Cliente" asp-action="Index" role="button">Voltar</a>
+			</div>
+		</div>
+	</form>
+</div>
