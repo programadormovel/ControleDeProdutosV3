@@ -15,6 +15,7 @@
 		<caption>Lista de Produtos</caption>
 		<thead>
 			<tr>
+				<th scope="col">Foto</th>
 				<th scope="col">Id</th>
 				<th scope="col">Código de Barras</th>
 				<th scope="col">Descrição</th>
@@ -32,6 +33,13 @@
 				foreach (ProdutoModel produto in Model)
 				{
 					<tr>
+						<td>
+							@{
+								var base64 = Convert.ToBase64String(@produto.Foto);
+								var imgSrc = String.Format("data:image/gif; base64, {0}", base64);
+							}
+							<img src='@imgSrc' style="max-width: 100px; max-height: 100px;" />
+						</td>
 						<th scope="row">@produto.Id</th>
 						<td>@produto.CodigoDeBarras</td>
 						<td>@produto.Descricao</td>

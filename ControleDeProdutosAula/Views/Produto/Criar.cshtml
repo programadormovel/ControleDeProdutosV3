@@ -6,7 +6,7 @@
 <div class="text-center col-6 mx-auto">
 	<h1 class="display-4"> Cadastro de Produtos</h1>
 
-	<form asp-controller="Produto" asp-action="Criar" method="post" class="col">
+	<form asp-controller="Produto" asp-action="Criar" method="post" class="col" enctype="multipart/form-data">
 		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 		<div class="row mt-4">
 			<div class="col-sm-12">
@@ -38,11 +38,14 @@
 			</div>
 		</div>
 		<div class="row col-7 mx-auto mt-4">
-			<label for="nomeDaFoto" class="form-label">Foto</label>
-			<input type="file" asp-for="NomeDaFoto" class="form-control" id="nomeDaFoto" placeholder="Busque a foto do produto">
+			<label for="imagemCarregada" class="form-label">Foto</label>
+			<input type="file" accept="image/png, image/jpeg" class="form-control" id="imagemCarregada" placeholder="Busque a foto do produto." name="imagemCarregada">
+
 			<span asp-validation-for="NomeDaFoto" class="text-danger"></span>
+
 			<input type="image" asp-for="Foto" class="form-control" id="foto" src="" width=100 height=auto>
 			<span asp-validation-for="Foto" class="text-danger"></span>
+
 		</div>
 		<div class="row mt-4 col-1 mx-auto">
 			<div class="form-check">

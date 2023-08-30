@@ -4,6 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddRazorPages().AddMvcOptions(options =>
+{
+	options.MaxModelValidationErrors = 50;
+	options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
+		_ => "Este campo é Obrigatório!");
+});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<BancoContext>(

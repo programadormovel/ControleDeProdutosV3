@@ -2,16 +2,21 @@
 using ControleDeProdutosAula.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace ControleDeProdutosAula.Controllers
 {
 	public class ProdutoController : Controller
 	{
+		private IHostingEnvironment Environment;
+
 		private readonly IProdutoRepositorio _produtoRepositorio;
 
-		public ProdutoController(IProdutoRepositorio produtoRepositorio)
+		public ProdutoController(IProdutoRepositorio produtoRepositorio,
+			IHostingEnvironment _environment)
 		{
 			_produtoRepositorio = produtoRepositorio;
+			Environment = _environment;
 		}
 
 		public async Task<IActionResult> Index()
@@ -48,7 +53,7 @@ namespace ControleDeProdutosAula.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Criar(ProdutoModel produto)
+		public async Task<IActionResult> Criar(ProdutoModel produto, IFormFile? imagemCarregada)
 		{
 			ProdutoModel model = produto;
 
@@ -57,7 +62,7 @@ namespace ControleDeProdutosAula.Controllers
 
 			bool isValid = Validator.TryValidateObject(model, context, results, true);
 
-			if(!isValid)
+			if (!isValid)
 			{
 				foreach (var validationResult in results)
 				{
@@ -67,6 +72,26 @@ namespace ControleDeProdutosAula.Controllers
 
 			model.DataDeRegistro = DateTime.Now;
 			model.Ativo = true;
+
+			// Carregamento de imagem
+			string wwwPath = this.Environment.WebRootPath;
+			string path = Path.Combine(wwwPath, "Uploads");
+			if (!Directory.Exists(path))
+			{
+				Directory.CreateDirectory(path);
+			}
+			string fileName = Path.GetFileName(imagemCarregada!.FileName);
+
+			var caminhoCompleto = Path.Combine(path, fileName);
+
+			using (FileStream stream = new FileStream(caminhoCompleto, FileMode.Create))
+			{
+				imagemCarregada.CopyTo(stream);
+				model.NomeDaFoto = caminhoCompleto;
+			}
+
+			model.Foto = Util.ReadFully2(caminhoCompleto);
+
 			await _produtoRepositorio.Adicionar(model);
 
 			return await Task.FromResult(RedirectToAction("Index"));
