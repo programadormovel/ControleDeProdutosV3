@@ -2,16 +2,21 @@
 using ControleDeProdutosAula.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace ControleDeProdutosAula.Controllers
 {
 	public class ClienteController : Controller
 	{
+		private IHostingEnvironment Environment;
+
 		private readonly IClienteRepositorio _clienteRepositorio;
 
-		public ClienteController(IClienteRepositorio clienteRepositorio)
+		public ClienteController(IClienteRepositorio clienteRepositorio,
+			IHostingEnvironment _environment)
 		{
 			_clienteRepositorio = clienteRepositorio;
+			Environment = _environment;
 		}
 
 		public async Task<IActionResult> Index()
@@ -48,7 +53,7 @@ namespace ControleDeProdutosAula.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Criar(ClienteModel cliente)
+		public async Task<IActionResult> Criar(ClienteModel cliente, IFormFile? imagemCarregada)
 		{
 			ClienteModel model = cliente;
 
@@ -67,8 +72,26 @@ namespace ControleDeProdutosAula.Controllers
 
 			model.DataDeRegistro = DateTime.Now;
 			model.Ativo = true;
-			model.Telefone = cliente.Telefone.Replace("-", "");
-			model.CEP = cliente.CEP.Replace("-", "");
+
+			// Carregamento de imagem
+			string wwwPath = this.Environment.WebRootPath;
+			string path = Path.Combine(wwwPath, "Uploads");
+			if (!Directory.Exists(path))
+			{
+				Directory.CreateDirectory(path);
+			}
+			string fileName = Path.GetFileName(imagemCarregada!.FileName);
+
+			var caminhoCompleto = Path.Combine(path, fileName);
+
+			using (FileStream stream = new FileStream(caminhoCompleto, FileMode.Create))
+			{
+				imagemCarregada.CopyTo(stream);
+				model.NomeDaFoto = caminhoCompleto;
+			}
+
+			model.Foto = Util.ReadFully2(caminhoCompleto);
+
 			await _clienteRepositorio.Adicionar(model);
 
 			return await Task.FromResult(RedirectToAction("Index"));

@@ -31,9 +31,12 @@
 			</div>
 		</div>
 		<div class="row col-7 mx-auto mt-4">
-			<label for="nomeDaFoto" class="form-label">Foto</label>
-			<input type="file" asp-for="NomeDaFoto" class="form-control" id="nomeDaFoto" placeholder="Busque a foto do produto">
-			<input type="image" asp-for="Foto" class="form-control" id="foto" src="" width=100 height=auto>
+			<label for="imagemCarregada" class="form-label">Foto</label>
+			<input type="file" asp-for="NomeDaFoto" class="form-control" id="imagemCarregada" placeholder="Busque a foto do produto">
+			
+			@*
+				<input type="image" asp-for="Foto" class="form-control" id="foto" src="" width=100 height=auto>
+			*@
 		</div>
 		<div class="row mt-4 col-1 mx-auto">
 			<div class="form-check">
