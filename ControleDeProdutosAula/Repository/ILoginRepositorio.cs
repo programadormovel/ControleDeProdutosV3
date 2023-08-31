@@ -8,8 +8,8 @@ namespace ControleDeProdutosAula.Repository
 		Task<List<LoginModel>> BuscarTodos();
 		Task<LoginModel> Adicionar(LoginModel login);
 		Task<LoginModel> ListarPorId(long id);
-		Task<LoginModel> ListarPorEmail(EmailAddressAttribute email);
-		Task<LoginModel> ListarPorEmailSenha(EmailAddressAttribute email, string senha);
+		Task<LoginModel> ListarPorEmail(string email);
+		Task<LoginModel> ListarPorEmailSenha(string email, string senha);
 		Task<LoginModel> Atualizar(LoginModel login);
 		Task<bool> Apagar(long id);
 	}

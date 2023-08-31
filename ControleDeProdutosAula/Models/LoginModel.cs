@@ -1,14 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace ControleDeProdutosAula.Models
 {
 	public class LoginModel
 	{
-		[Key]
 		public Int64 Id { get; set; }
 		[Required]
-		public EmailAddressAttribute EmailAddress { get; set; }
+		public string Email { get; set; }
 
 		[Required]
 		public string Usuario { get; set; }
