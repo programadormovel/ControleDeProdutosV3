@@ -18,7 +18,6 @@ namespace ControleDeProdutosAula.Models
 		[Required(ErrorMessage = "Campo Obrigatório")]
 		public string CodigoDeBarras { get; set; } = string.Empty;
 
-		[Range(typeof(DateTime), minimum: "23/08/2023", maximum: "24/8/2024")]
 		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
 		[DataType(DataType.Date)]
 		public DateTime DataDeValidade { get; set; }

@@ -57,3 +57,11 @@ td p {
 #inativo {
     color: #f70707;
 }
+
+.image-size {
+    max-width: 60px;
+    max-height: 60px;
+    
+    object-fit: center;
+    object-position: center;
+}

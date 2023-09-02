@@ -1,6 +1,7 @@
 ﻿using ControleDeProdutosAula.Models;
 using ControleDeProdutosAula.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
@@ -9,6 +10,9 @@ namespace ControleDeProdutosAula.Controllers
 	public class ClienteController : Controller
 	{
 		private IHostingEnvironment Environment;
+		public const string SessionKeyUser = "_Usuario";
+		public const string SessionKeyEmail = "_Email";
+		public const string SessionKeyNivel = "_Nivel";
 
 		private readonly IClienteRepositorio _clienteRepositorio;
 
@@ -23,7 +27,12 @@ namespace ControleDeProdutosAula.Controllers
 		{
 			List<ClienteModel> clientes = await _clienteRepositorio.BuscarTodos();
 
-			return await Task.FromResult(View(clientes));
+			var usuario = HttpContext.Session.GetString(SessionKeyUser);
+			if (!usuario.IsNullOrEmpty())
+			{
+				return await Task.FromResult(View(clientes));
+			}
+			return await Task.FromResult(RedirectToAction("Index", "Home"));
 		}
 
 		public async Task<IActionResult> Criar()

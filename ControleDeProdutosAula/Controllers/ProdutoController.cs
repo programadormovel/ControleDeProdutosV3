@@ -1,6 +1,7 @@
 ﻿using ControleDeProdutosAula.Models;
 using ControleDeProdutosAula.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
@@ -9,11 +10,13 @@ namespace ControleDeProdutosAula.Controllers
 	public class ProdutoController : Controller
 	{
 		private IHostingEnvironment Environment;
+		public const string SessionKeyUser = "_Usuario";
+		public const string SessionKeyEmail = "_Email";
+		public const string SessionKeyNivel = "_Nivel";
 
 		private readonly IProdutoRepositorio _produtoRepositorio;
 
-		public ProdutoController(IProdutoRepositorio produtoRepositorio,
-			IHostingEnvironment _environment)
+		public ProdutoController(IProdutoRepositorio produtoRepositorio, IHostingEnvironment _environment)
 		{
 			_produtoRepositorio = produtoRepositorio;
 			Environment = _environment;
@@ -23,7 +26,12 @@ namespace ControleDeProdutosAula.Controllers
 		{
 			List<ProdutoModel> produtos = await _produtoRepositorio.BuscarTodos();
 
-			return await Task.FromResult(View(produtos));
+			var usuario = HttpContext.Session.GetString(SessionKeyUser);
+			if (!usuario.IsNullOrEmpty())
+			{
+				return await Task.FromResult(View(produtos));
+			}
+			return await Task.FromResult(RedirectToAction("Index", "Home"));
 		}
 
 		public async Task<IActionResult> Criar()
@@ -53,7 +61,8 @@ namespace ControleDeProdutosAula.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Criar(ProdutoModel produto, IFormFile? imagemCarregada)
+		public async Task<IActionResult> Criar(ProdutoModel produto,
+			IFormFile? imagemCarregada)
 		{
 			ProdutoModel model = produto;
 
@@ -68,6 +77,11 @@ namespace ControleDeProdutosAula.Controllers
 				{
 					return View(model);
 				}
+			}
+
+			if (produto.DataDeValidade < DateTime.Now)
+			{
+				return View(model);
 			}
 
 			model.DataDeRegistro = DateTime.Now;

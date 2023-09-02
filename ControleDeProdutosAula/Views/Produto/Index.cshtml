@@ -1,11 +1,18 @@
 ﻿@using System.Globalization;
+@using ControleDeProdutosAula.Controllers;
 @model List<ProdutoModel>
 @{
 	ViewData["Title"] = "Produtos";
 }
 
 <div class="text-center">
-
+	<div>
+		<p>
+			Usuário: @{
+				Context.Session.GetString(ProdutoController.SessionKeyUser);
+			}
+		</p>
+	</div>
 	<div class="d-grid gap-2 d-md-flex justify-content-md-start">
 		<a class="btn btn-success" role="button" asp-controller="Produto" asp-action="Criar">Adicionar novo produto</a>
 	</div>
@@ -32,13 +39,17 @@
 			{
 				foreach (ProdutoModel produto in Model)
 				{
-					<tr>
+					<tr class="align-baseline">
 						<td>
 							@{
-								var base64 = Convert.ToBase64String(@produto.Foto);
-								var imgSrc = String.Format("data:image/gif; base64, {0}", base64);
+								var imgSrc = "~/wwwroot/Uploads/no-image.png";
+								@if (produto.Foto != null)
+								{
+									var base64 = Convert.ToBase64String(@produto.Foto);
+									imgSrc = String.Format("data:image/gif; base64, {0}", base64);
+								}
 							}
-							<img src='@imgSrc' style="max-width: 100px; max-height: 100px;" />
+							<img src='@imgSrc' class="image-size" />
 						</td>
 						<th scope="row">@produto.Id</th>
 						<td>@produto.CodigoDeBarras</td>

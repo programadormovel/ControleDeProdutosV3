@@ -4,6 +4,17 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Habilita o MemoryCache
+builder.Services.AddDistributedMemoryCache();
+// Define configurações padrões de sessão
+builder.Services.AddSession(options =>
+{
+	options.Cookie.Name = ".ControleDeProdutosAula.Session";
+	options.IdleTimeout = TimeSpan.FromSeconds(99999);
+	//options.Cookie.HttpOnly = true; 
+	options.Cookie.IsEssential = true;
+});
+
 builder.Services.AddRazorPages().AddMvcOptions(options =>
 {
 	options.MaxModelValidationErrors = 50;
@@ -37,6 +48,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthorization();
 

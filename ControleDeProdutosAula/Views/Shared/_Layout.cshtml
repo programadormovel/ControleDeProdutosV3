@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using ControleDeProdutosAula.Controllers;
+@{
+	var usuario = Context.Session.GetString(LoginController.SessionKeyUser);
+}
+
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
 	<meta charset="utf-8" />
@@ -24,25 +29,34 @@
 				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 					<div>
 						<ul class="navbar-nav flex-grow-1">
-							<li class="nav-item">
-								<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Início</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link text-dark" asp-area="" asp-controller="Produto" asp-action="Index">Produtos</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link text-dark" asp-area="" asp-controller="Cliente" asp-action="Index">Clientes</a>
-							</li>
+							@if (@usuario != null)
+							{
+								<li class="nav-item">
+									<a class="nav-link text-dark" asp-area="" asp-controller="Produto" asp-action="Index">Produtos</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link text-dark" asp-area="" asp-controller="Cliente" asp-action="Index">Clientes</a>
+								</li>
+							}
 						</ul>
 					</div>
 					<div>
 						<ul class="navbar-nav flex-grow-1">
-							<li class="nav-item">
-								<a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Entrar</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Sair</a>
-							</li>
+							@if (@usuario == null)
+							{
+								<li class="nav-item">
+									<a class="btn btn-success" asp-area="" asp-controller="Login" asp-action="Index">Entrar</a>
+								</li>
+							}
+							else
+							{
+								<li class="nav-item mx-3">
+									<a class="nav-link text-secondary" disabled>@usuario</a>					
+								</li>
+								<li class="nav-item">
+									<a class="btn btn-danger" asp-area="" asp-controller="Home" asp-action="Sair">Sair</a>
+								</li>
+							}
 						</ul>
 					</div>
 				</div>

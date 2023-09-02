@@ -9,6 +9,9 @@ namespace ControleDeProdutosAula.Controllers
 	public class LoginController : Controller
 	{
 		private readonly ILoginRepositorio _loginRepositorio;
+		public const string SessionKeyUser = "_Usuario";
+		public const string SessionKeyEmail = "_Email";
+		public const string SessionKeyNivel = "_Nivel";
 
 		public LoginController(ILoginRepositorio loginRepositorio)
 		{
@@ -43,9 +46,13 @@ namespace ControleDeProdutosAula.Controllers
 
 			if (senhaDecriptada.Equals(senha))
 			{
+				// Gravando usuário logado na sessão
+				HttpContext.Session.SetString(SessionKeyUser, loginDB.Usuario);
+				HttpContext.Session.SetString(SessionKeyEmail, loginDB.Email);
+				HttpContext.Session.SetInt32(SessionKeyNivel, (int)loginDB.NivelAcesso);
+
 				return await Task.FromResult(RedirectToAction("Index", "Home"));
 			}
-
 			return await Task.FromResult(View());
 
 		}

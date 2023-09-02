@@ -45,13 +45,13 @@
 						telConvertido = @cliente.Telefone.Substring(0, 5) + "-" + @cliente.Telefone.Substring(6, 4);
 					}
 
-					<tr>
+					<tr class="align-baseline">
 						<td>
 							@{
 								var base64 = Convert.ToBase64String(@cliente.Foto);
 								var imgSrc = String.Format("data:image/gif; base64, {0}", base64);
 							}
-							<img src='@imgSrc' style="max-width: 100px; max-height: 100px;" />
+							<img src='@imgSrc' class="image-size" />
 						</td>
 						<th scope="row">@cliente.Id</th>
 						<td>@cliente.Nome</td>
