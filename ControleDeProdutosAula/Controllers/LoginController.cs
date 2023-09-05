@@ -24,6 +24,20 @@ namespace ControleDeProdutosAula.Controllers
 			return await Task.FromResult(View());
 		}
 
+		async public Task<IActionResult> Editar(long id)
+		{
+			LoginModel login = await _loginRepositorio.ListarPorId(id);
+
+			return await Task.FromResult(View(login));
+		}
+
+		public async Task<IActionResult> ApagarConfirmacao(long id)
+		{
+			LoginModel login = await _loginRepositorio.ListarPorId(id);
+			
+			return await Task.FromResult(View(login));
+		}
+
 		async public Task<IActionResult> Registro()
 		{
 
@@ -83,6 +97,14 @@ DateTime.Now
 
 			return await Task.FromResult(RedirectToAction("Index", "Login"));
 		}
+
+		[HttpPost]
+		public async Task<IActionResult> Alterar(LoginModel login)
+		{
+			await _loginRepositorio.AtualizarUsuario(login);
+			return await Task.FromResult(RedirectToAction("Index", "Home"));
+		}
+
 
 	}
 }

@@ -36,7 +36,7 @@ namespace ControleDeProdutosAula.Repository
 			}
 			catch (System.Exception e)
 			{
-				throw new System.Exception($"{e.Message}Houve um erro na busca do produto");
+				throw new System.Exception($"{e.Message}Houve um erro na busca do cliente");
 			}
 
 			return await clienteDB;
@@ -46,7 +46,7 @@ namespace ControleDeProdutosAula.Repository
 		{
 			ClienteModel clienteDB = await ListarPorId(cliente.Id);
 
-			if (clienteDB == null) throw new System.Exception("Houve um erro na atualização do produto");
+			if (clienteDB == null) throw new System.Exception("Houve um erro na atualização do cliente");
 
 			clienteDB.Nome = cliente.Nome;
 			clienteDB.Sobrenome = cliente.Sobrenome;
@@ -70,8 +70,29 @@ namespace ControleDeProdutosAula.Repository
 		{
 			ClienteModel clienteDB = await ListarPorId(id);
 
-			if (clienteDB == null) throw new System.Exception("Houve um erro na exclusão do produto");
+			if (clienteDB == null) throw new System.Exception("Houve um erro na exclusão do cliente");
 			_bancoContext.Cliente.Remove(clienteDB);
+			await _bancoContext.SaveChangesAsync();
+
+			return await Task.FromResult(true);
+		}
+
+		public async Task<bool> AtivarDesativar(long id)
+		{
+			ClienteModel clienteDB = await ListarPorId(id);
+
+			if (clienteDB == null) throw new System.Exception("Houve um erro na inatividade do cliente");
+			
+			if (clienteDB.Ativo == true)
+			{
+				clienteDB.Ativo = false;
+			}
+			else
+			{
+				clienteDB.Ativo = true;
+			}
+
+			_bancoContext.Cliente.Update(clienteDB);
 			await _bancoContext.SaveChangesAsync();
 
 			return await Task.FromResult(true);

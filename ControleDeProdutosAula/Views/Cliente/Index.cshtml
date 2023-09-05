@@ -73,17 +73,20 @@
 						<td>
 							@if (@cliente.Ativo)
 							{
-								<p id="ativo">Ativo</p>
+								<a role="button" class="situacao" asp-route-id="@cliente.Id" asp-controller="Cliente" asp-action="AtivarDesativar">
+									<p id="ativo">Ativo</p>
+								</a>
 							}
 							else
 							{
-								<p id="inativo">Inativo</p>
+								<a role="button" class="situacao" asp-route-id="@cliente.Id" asp-controller="Cliente" asp-action="AtivarDesativar">
+									<p id="inativo">Inativo</p>
+								</a>
 							}
 						</td>
 						<td>
 							<div class="btn-group" role="group">
-								<a role="button" class="bi bi-pencil-square" asp-route-id="@cliente.Id" asp-controller="Cliente" asp-action="Editar"></a>
-								<a role="button" class="bi bi-x-lg mx-4"></a>
+								<a role="button" class="bi bi-pencil-square mx-5" asp-route-id="@cliente.Id" asp-controller="Cliente" asp-action="Editar"></a>
 								<a role="button" class="bi bi-eraser" asp-route-id="@cliente.Id" asp-controller="Cliente" asp-action="ApagarConfirmacao"></a>
 							</div>
 						</td>

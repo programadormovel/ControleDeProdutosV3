@@ -1,5 +1,4 @@
 ﻿using ControleDeProdutosAula.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace ControleDeProdutosAula.Repository
 {
@@ -11,6 +10,7 @@ namespace ControleDeProdutosAula.Repository
 		Task<LoginModel> ListarPorEmail(string email);
 		Task<LoginModel> ListarPorEmailSenha(string email, string senha);
 		Task<LoginModel> Atualizar(LoginModel login);
+		Task<LoginModel> AtualizarUsuario(LoginModel login);
 		Task<bool> Apagar(long id);
 	}
 }

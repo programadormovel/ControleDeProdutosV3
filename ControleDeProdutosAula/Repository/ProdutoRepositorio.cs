@@ -54,10 +54,10 @@ namespace ControleDeProdutosAula.Repository
 			//produtoDB.DataDeRegistro = produto.DataDeRegistro;
 			produtoDB.Quantidade = produto.Quantidade;
 			produtoDB.Valor = produto.Valor;
-			#pragma warning disable CS8601 // Possible null reference assignment.
+#pragma warning disable CS8601 // Possible null reference assignment.
 			produtoDB.NomeDaFoto = produto.NomeDaFoto;
 			produtoDB.Foto = produto.Foto;
-			#pragma warning restore CS8601 // Possible null reference assignment.
+#pragma warning restore CS8601 // Possible null reference assignment.
 			produtoDB.Ativo = produto.Ativo;
 
 			_bancoContext.Produto.Update(produtoDB);
@@ -76,5 +76,28 @@ namespace ControleDeProdutosAula.Repository
 
 			return await Task.FromResult(true);
 		}
+
+		public async Task<bool> AtivarDesativar(long id)
+		{
+			ProdutoModel produtoDB = await ListarPorId(id);
+
+			if (produtoDB == null) throw new System.Exception("Houve um erro na inatividade do produto");
+
+			if (produtoDB.Ativo == true)
+			{
+				produtoDB.Ativo = false;
+			}
+			else
+			{
+				produtoDB.Ativo = true;
+			}
+
+			_bancoContext.Produto.Update(produtoDB);
+			await _bancoContext.SaveChangesAsync();
+
+			return await Task.FromResult(true);
+		}
+
+
 	}
 }

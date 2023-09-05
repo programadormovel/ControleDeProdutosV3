@@ -50,6 +50,10 @@ td p {
     font-weight: 600;
 }
 
+.situacao {
+    text-decoration: none;
+}
+
 #ativo {
     color: #01cc2b;
 }

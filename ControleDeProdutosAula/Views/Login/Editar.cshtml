@@ -1,0 +1,42 @@
+﻿@model LoginModel
+@{
+	ViewData["Title"] = "Editar Usuário";
+}
+<div class="text-center mx-auto col-4">
+	<h1 class="display-4">Editar Usuário</h1>
+	<form asp-controller="Login" asp-action="Alterar" method="post" class="col">
+		<div class="row mt-4">
+			<div class="col-sm-12">
+				<input type="hidden" asp-for="Id" />
+				<label for="usuario" class="form-label">Usuario</label>
+				<input type="text" asp-for="Usuario" class="form-control" id="usuario" placeholder="Digite o usuário">
+			</div>
+		</div>
+		<div class="row mt-4">
+			<div class="col-sm-12">
+				<label for="email" class="form-label">Email</label>
+				<input type="email" asp-for="Email" class="form-control" id="email" placeholder="Digite o e-mail">
+			</div>
+		</div>
+		<div class="row mt-4">
+			<div class="col-sm-12">
+				<label for="senha" class="form-label">Senha</label>
+				<input type="password" asp-for="Senha" class="form-control" id="senha" placeholder="Digite a senha">
+			</div>
+		</div>
+		<div class="row col-4 mt-4 mx-auto">
+			<div class="col-sm-12">
+				<label for="nivelAcesso" class="form-label">Nível de Acesso</label>
+				<input type="number" asp-for="NivelAcesso" class="form-control" id="nivelAcesso" placeholder="">
+			</div>
+		</div>
+		<div class="row col-6 mt-5 mx-auto">
+			<div class="col-sm-6">
+				<button type="submit" class="btn btn-primary btn-block">Atualizar</button>
+			</div>
+			<div class="col-sm-6">
+				<a class="btn btn-secondary btn-block" asp-controller="Home" asp-action="Index" role="button">Voltar</a>
+			</div>
+		</div>
+	</form>
+</div>

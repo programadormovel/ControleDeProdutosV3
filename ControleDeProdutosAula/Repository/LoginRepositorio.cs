@@ -48,6 +48,25 @@ namespace ControleDeProdutosAula.Repository
 
 			if (loginDB == null) throw new System.Exception("Houve um erro na atualização do login");
 
+			loginDB.Usuario = login.Email;
+			loginDB.Email = login.Email;
+			loginDB.Senha = login.Senha;
+			loginDB.NivelAcesso = login.NivelAcesso;
+			loginDB.Ativo = login.Ativo;
+
+			_bancoContext.Login.Update(loginDB);
+			await _bancoContext.SaveChangesAsync();
+
+			return await Task.FromResult(loginDB);
+		}
+
+		public async Task<LoginModel> AtualizarUsuario(LoginModel login)
+		{
+			LoginModel loginDB = await ListarPorId(login.Id);
+
+			if (loginDB == null) throw new System.Exception("Houve um erro na atualização do login");
+
+			loginDB.Usuario = login.Email;
 			loginDB.Email = login.Email;
 			loginDB.Senha = login.Senha;
 			loginDB.NivelAcesso = login.NivelAcesso;

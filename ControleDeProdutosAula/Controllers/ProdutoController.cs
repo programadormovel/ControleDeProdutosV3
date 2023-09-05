@@ -53,6 +53,13 @@ namespace ControleDeProdutosAula.Controllers
 			return await Task.FromResult(View(produto));
 		}
 
+		public async Task<IActionResult> AtivarDesativar(long id)
+		{
+			await _produtoRepositorio.AtivarDesativar(id);
+
+			return await Task.FromResult(RedirectToAction("Index"));
+		}
+
 		public async Task<IActionResult> Apagar(long id)
 		{
 			await _produtoRepositorio.Apagar(id);
