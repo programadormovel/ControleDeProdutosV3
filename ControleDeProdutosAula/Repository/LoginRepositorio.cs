@@ -48,7 +48,7 @@ namespace ControleDeProdutosAula.Repository
 
 			if (loginDB == null) throw new System.Exception("Houve um erro na atualização do login");
 
-			loginDB.Usuario = login.Email;
+			loginDB.Usuario = login.Usuario;
 			loginDB.Email = login.Email;
 			loginDB.Senha = login.Senha;
 			loginDB.NivelAcesso = login.NivelAcesso;

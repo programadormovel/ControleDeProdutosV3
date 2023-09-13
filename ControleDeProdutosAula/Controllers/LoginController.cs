@@ -12,6 +12,7 @@ namespace ControleDeProdutosAula.Controllers
 		public const string SessionKeyUser = "_Usuario";
 		public const string SessionKeyEmail = "_Email";
 		public const string SessionKeyNivel = "_Nivel";
+		public const string SessionKeyId = "_Id";
 
 		public LoginController(ILoginRepositorio loginRepositorio)
 		{
@@ -49,21 +50,18 @@ namespace ControleDeProdutosAula.Controllers
 		async public Task<IActionResult> Index(string email, string senha)
 		{
 			LoginModel loginDB = await _loginRepositorio.ListarPorEmail(email);
+			var sucesso = false;
 
-			byte[] salt = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+			if (senha != null)
+				sucesso = Util.Decriptografia(loginDB, senha);
 
-			EncryptDecrypt enc = new EncryptDecrypt(salt);
-
-			string senhaBanco = loginDB.Senha;
-
-			var senhaDecriptada = enc.Decrypt(senhaBanco);
-
-			if (senhaDecriptada.Equals(senha))
+			if (sucesso)
 			{
 				// Gravando usuário logado na sessão
 				HttpContext.Session.SetString(SessionKeyUser, loginDB.Usuario);
 				HttpContext.Session.SetString(SessionKeyEmail, loginDB.Email);
 				HttpContext.Session.SetInt32(SessionKeyNivel, (int)loginDB.NivelAcesso);
+				HttpContext.Session.SetInt32(SessionKeyId, (int)loginDB.Id);
 
 				return await Task.FromResult(RedirectToAction("Index", "Home"));
 			}
@@ -75,20 +73,11 @@ namespace ControleDeProdutosAula.Controllers
 		async public Task<IActionResult> Registro(LoginModel login, string? senha)
 		{
 			LoginModel loginDB = login;
-			var senhaEncriptada = "";
-
-			byte[] salt = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
-
-			EncryptDecrypt enc = new EncryptDecrypt(salt);
-
-			senhaEncriptada = enc.Encrypt(senha);
-
-			loginDB.Senha = senhaEncriptada;
+			
+			loginDB.Senha = Util.Criptografia(senha!);
 
 			loginDB.NivelAcesso = 1;
-			loginDB.DataDeRegistro =
-DateTime.Now
-;
+			loginDB.DataDeRegistro = DateTime.Now;
 			loginDB.Ativo = 1;
 			loginDB.EmailConfirmado = false;
 			loginDB.TelefoneConfirmado = false;
@@ -99,12 +88,24 @@ DateTime.Now
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Alterar(LoginModel login)
+		public async Task<IActionResult> Alterar(LoginModel login, string senhaAtual, string novaSenha)
 		{
-			await _loginRepositorio.AtualizarUsuario(login);
-			return await Task.FromResult(RedirectToAction("Index", "Home"));
+			LoginModel loginDB = await _loginRepositorio.ListarPorId(login.Id);
+
+			var sucesso = Util.Decriptografia(loginDB, senhaAtual);
+			if (sucesso)
+			{
+				loginDB.Usuario = login.Usuario;
+				loginDB.Email = login.Email;
+				loginDB.Senha = Util.Criptografia(novaSenha);
+				await _loginRepositorio.Atualizar(loginDB);
+				return await Task.FromResult(RedirectToAction("Sair", "Home"));
+			}
+
+			return await Task.FromResult(View());
 		}
 
+		
 
 	}
 }

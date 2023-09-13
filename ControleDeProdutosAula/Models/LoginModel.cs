@@ -16,8 +16,7 @@ namespace ControleDeProdutosAula.Models
 		[Required]
 		public string Senha { get; set; }
 
-		[MaybeNull]
-		public int? NivelAcesso { get; set; }
+		public int NivelAcesso { get; set; }
 		
 		public int Ativo { get; set; }
 		

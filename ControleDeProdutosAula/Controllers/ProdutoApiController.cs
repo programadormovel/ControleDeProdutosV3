@@ -1,5 +1,6 @@
 ﻿using ControleDeProdutosAula.Models;
 using ControleDeProdutosAula.Repository;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ControleDeProdutosAula.Controllers
@@ -16,6 +17,7 @@ namespace ControleDeProdutosAula.Controllers
 		}
 
 		// Get: api/Produto
+		[EnableCors("MyPolicy")]
 		[HttpGet]
 		public async Task<ActionResult<List<ProdutoModel>>> ListarProdutos()
 		{

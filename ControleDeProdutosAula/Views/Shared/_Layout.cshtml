@@ -1,6 +1,7 @@
 ﻿@using ControleDeProdutosAula.Controllers;
 @{
 	var usuario = Context.Session.GetString(LoginController.SessionKeyUser);
+	var idUsuario = Context.Session.GetInt32(LoginController.SessionKeyId);
 }
 
 <!DOCTYPE html>
@@ -51,7 +52,7 @@
 							else
 							{
 								<li class="nav-item mx-3">
-									<a class="nav-link text-secondary" asp-area="" asp-controller="Login" asp-action="Editar">@usuario</a>
+									<a class="nav-link text-secondary" asp-area="" asp-controller="Login" asp-action="Editar" asp-route-id=@idUsuario>@usuario</a>
 								</li>
 								<li class="nav-item">
 									<a class="btn btn-danger" asp-area="" asp-controller="Home" asp-action="Sair">Sair</a>
