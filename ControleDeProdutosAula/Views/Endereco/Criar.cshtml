@@ -1,0 +1,68 @@
+﻿@model EnderecoModel
+@{
+	ViewData["Title"] = "Cadastro de Endereço";
+}
+
+<script type="text/javascript">
+	jQuery(function ($) {
+		$("#telefone").mask("9999-9999?9");
+		$("#telefone").blur(function (event) {
+			if ($(this).val().length == 10) {
+				$('#telefone').mask('99999-9999');
+			} else {
+				$('#telefone').mask('9999-9999');
+			}
+		});
+	});
+</script>
+
+<script type="text/javascript">
+	jQuery(function ($) {
+		$("#cep").mask("99999-999");
+		$("#cep").blur(function (event) {
+			if ($(this).val().length == 9) {
+				$('#cep').mask('99999-999');
+			}
+		});
+	});
+</script>
+
+<h1 class="display-4 text-center mx-auto"> Cadastro de Endereços</h1>
+<div class="text-center mx-auto col-4">
+	<form asp-controller="Cliente" asp-action="Criar" method="post" class="col" enctype="multipart/form-data">
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<div class="row mt-4">
+			<div class="col-sm-6">
+				<label for="cep" class="form-label">CEP</label>
+				<input type="text" asp-for="cep" class="form-control" id="cep" placeholder="Informe o CEP">
+				<span asp-validation-for="cep" class="text-danger"></span>
+			</div>
+			<div class="col-sm-6">
+				<label for="nome" class="form-label">Logradouro</label>
+				<input type="text" asp-for="logradouro" class="form-control" id="nome" placeholder="Digite o Nome">
+				<span asp-validation-for="logradouro" class="text-danger"></span>
+			</div>
+			<div class="col-sm-6">
+				<label for="sobrenome" class="form-label">Bairro</label>
+				<input type="text" asp-for="bairro" class="form-control" id="sobrenome" placeholder="Digite o sobrenome">
+				<span asp-validation-for="bairro" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="row mt-4">
+			<div class="col-sm-3">
+				<label for="telefone" class="form-label">Cidade</label>
+				<input type="text" asp-for="cidade" class="form-control" id="ddd" placeholder="DDD">
+				<span asp-validation-for="cidade" class="text-danger"></span>
+			</div>
+		</div>
+		
+		<div class="row col-6 mt-5 mx-auto">
+			<div class="col-sm-6">
+				<button type="submit" class="btn btn-primary btn-block">Adicionar</button>
+			</div>
+			<div class="col-sm-6">
+				<a class="btn btn-secondary btn-block" asp-controller="Endereco" asp-action="Index" role="button">Voltar</a>
+			</div>
+		</div>
+	</form>
+</div>

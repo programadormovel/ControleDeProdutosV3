@@ -13,6 +13,7 @@ namespace ControleDeProdutosAula.Controllers
 		public const string SessionKeyUser = "_Usuario";
 		public const string SessionKeyEmail = "_Email";
 		public const string SessionKeyNivel = "_Nivel";
+		public const string SessionKeyIdCliente = "_IdCliente";
 
 		private readonly IClienteRepositorio _clienteRepositorio;
 
@@ -69,7 +70,7 @@ namespace ControleDeProdutosAula.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Criar(ClienteModel cliente, IFormFile? imagemCarregada)
+		public async Task<IActionResult> Criar(ClienteModel cliente, IFormFile? imagemCarregada, string logradouro, string bairro, string cidade)
 		{
 			ClienteModel model = cliente;
 
@@ -108,7 +109,18 @@ namespace ControleDeProdutosAula.Controllers
 
 			model.Foto = Util.ReadFully2(caminhoCompleto);
 
-			await _clienteRepositorio.Adicionar(model);
+			model.Enderecos.Add(new EnderecoModel
+			{
+				cep = model.CEP,
+				logradouro = logradouro,
+				bairro = bairro, 
+				cidade = cidade, 
+				ClienteId = model.Id
+			});
+
+            model = await _clienteRepositorio.Adicionar(model);
+
+            HttpContext.Session.SetInt32("_IdCliente", model.Id);
 
 			return await Task.FromResult(RedirectToAction("Index"));
 		}

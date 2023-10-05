@@ -70,6 +70,40 @@ namespace ControleDeProdutosAula.Migrations
                     b.ToTable("Cliente");
                 });
 
+            modelBuilder.Entity("ControleDeProdutosAula.Models.EnderecoModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ClienteId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("bairro")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("cep")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("cidade")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("logradouro")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.ToTable("Endereco");
+                });
+
             modelBuilder.Entity("ControleDeProdutosAula.Models.LoginModel", b =>
                 {
                     b.Property<long>("Id")
@@ -91,7 +125,7 @@ namespace ControleDeProdutosAula.Migrations
                     b.Property<bool?>("EmailConfirmado")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("NivelAcesso")
+                    b.Property<int>("NivelAcesso")
                         .HasColumnType("int");
 
                     b.Property<string>("Senha")
@@ -154,6 +188,20 @@ namespace ControleDeProdutosAula.Migrations
                         .IsUnique();
 
                     b.ToTable("Produto");
+                });
+
+            modelBuilder.Entity("ControleDeProdutosAula.Models.EnderecoModel", b =>
+                {
+                    b.HasOne("ControleDeProdutosAula.Models.ClienteModel", "Cliente")
+                        .WithMany("Enderecos")
+                        .HasForeignKey("ClienteId");
+
+                    b.Navigation("Cliente");
+                });
+
+            modelBuilder.Entity("ControleDeProdutosAula.Models.ClienteModel", b =>
+                {
+                    b.Navigation("Enderecos");
                 });
 #pragma warning restore 612, 618
         }

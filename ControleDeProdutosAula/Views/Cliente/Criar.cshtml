@@ -1,6 +1,8 @@
 ﻿@model ClienteModel
 @{
 	ViewData["Title"] = "Cadastro de Clientes";
+	//var listaEnderecos = Model.Enderecos;
+
 }
 
 <script type="text/javascript">
@@ -54,10 +56,25 @@
 				<input type="text" asp-for="Telefone" class="form-control" id="telefone" placeholder="Digite o telefone">
 				<span asp-validation-for="Telefone" class="text-danger"></span>
 			</div>
+		</div>
+		<div class="row col-10 mx-auto mt-4">
 			<div class="col-sm-4">
 				<label for="cep" class="form-label">CEP</label>
-				<input type="text" asp-for="CEP" class="form-control" id="cep" placeholder="Informe o CEP">
-				<span asp-validation-for="CEP" class="text-danger"></span>
+				<input type="text" asp-for="CEP" class="form-control" id="cep" placeholder="Digite o CEP">
+			</div>
+			<div class="col-sm-4">
+				<label for="logradouro" class="form-label">Logradouro</label>
+				<input type="text" class="form-control" id="logradouro" 
+						name="logradouro" placeholder="Digite o Logradouro">
+			</div>
+			<div class="col-sm-4">
+				<label for="bairro" class="form-label">Bairro</label>
+				<input type="text" class="form-control" id="bairro" 
+					name="bairro" placeholder="Digite o Bairro">
+			</div>
+			<div class="col-sm-4">
+				<label for="cidade" class="form-label">Cidade</label>
+				<input type="text" class="form-control" id="cidade" name="cidade" placeholder="Digite a Cidade">
 			</div>
 		</div>
 		<div class="row col-10 mt-4 mx-auto">

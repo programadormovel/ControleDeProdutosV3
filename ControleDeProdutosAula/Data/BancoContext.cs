@@ -12,8 +12,19 @@ namespace ControleDeProdutosAula.Data
 
         }
 
-        public DbSet<ProdutoModel> Produto { get; set; }
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<ClienteModel>()
+				.HasMany(e => e.Enderecos)
+				.WithOne(e => e.Cliente)
+				.HasForeignKey(e => e.ClienteId)
+				.IsRequired(false);
+		}
+
+		public DbSet<EnderecoModel> Endereco { get; set; }
+		public DbSet<ProdutoModel> Produto { get; set; }
         public DbSet<ClienteModel> Cliente { get; set; }
         public DbSet<LoginModel> Login { get; set; }
+        
 	}
 }

@@ -52,7 +52,7 @@ namespace ControleDeProdutosAula.Controllers
 			LoginModel loginDB = await _loginRepositorio.ListarPorEmail(email);
 			var sucesso = false;
 
-			if (senha != null)
+			if (senha != null && loginDB != null)
 				sucesso = Util.Decriptografia(loginDB, senha);
 
 			if (sucesso)

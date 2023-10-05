@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ControleDeProdutosAula.Migrations
 {
     /// <inheritdoc />
-    public partial class Cadastros11 : Migration
+    public partial class Cadastros3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -41,7 +41,7 @@ namespace ControleDeProdutosAula.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Usuario = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Senha = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NivelAcesso = table.Column<int>(type: "int", nullable: true),
+                    NivelAcesso = table.Column<int>(type: "int", nullable: false),
                     Ativo = table.Column<int>(type: "int", nullable: false),
                     EmailConfirmado = table.Column<bool>(type: "bit", nullable: true),
                     TelefoneConfirmado = table.Column<bool>(type: "bit", nullable: true),
@@ -73,6 +73,33 @@ namespace ControleDeProdutosAula.Migrations
                     table.PrimaryKey("PK_Produto", x => x.Id);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Endereco",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    cep = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    logradouro = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    bairro = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    cidade = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ClienteId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Endereco", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Endereco_Cliente_ClienteId",
+                        column: x => x.ClienteId,
+                        principalTable: "Cliente",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Endereco_ClienteId",
+                table: "Endereco",
+                column: "ClienteId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Produto_CodigoDeBarras",
                 table: "Produto",
@@ -84,13 +111,16 @@ namespace ControleDeProdutosAula.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Cliente");
+                name: "Endereco");
 
             migrationBuilder.DropTable(
                 name: "Login");
 
             migrationBuilder.DropTable(
                 name: "Produto");
+
+            migrationBuilder.DropTable(
+                name: "Cliente");
         }
     }
 }

@@ -39,5 +39,7 @@ namespace ControleDeProdutosAula.Models
 		[Required]
 		public bool Ativo { get; set; }
 
+		public ICollection<EnderecoModel> Enderecos { get; set; } = new List<EnderecoModel>();
+
 	}
 }
